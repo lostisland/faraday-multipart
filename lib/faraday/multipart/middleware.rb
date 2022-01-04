@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'securerandom'
+
 module Faraday
   module Multipart
     # Middleware for supporting multi-part requests.

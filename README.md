@@ -13,9 +13,9 @@ only under these conditions:
 
 Faraday contains a couple helper classes for multipart values:
 
-* `Faraday::FilePart` wraps binary file data with a Content-Type. The file data can be specified with a String path to a
+* `Faraday::Multipart::FilePart` wraps binary file data with a Content-Type. The file data can be specified with a String path to a
   local file, or an IO object.
-* `Faraday::ParamPart` wraps a String value with a Content-Type, and optionally a Content-ID.
+* `Faraday::Multipart::ParamPart` wraps a String value with a Content-Type, and optionally a Content-ID.
 
 ## Installation
 
@@ -57,10 +57,10 @@ Payload can be a mix of POST data and multipart values.
 payload = { string: 'value' }
 
 # filename for this value is File.basename(__FILE__)
-payload[:file] = Faraday::FilePart.new(__FILE__, 'text/x-ruby')
+payload[:file] = Faraday::Multipart::FilePart.new(__FILE__, 'text/x-ruby')
 
 # specify filename because IO object doesn't know it
-payload[:file_with_name] = Faraday::FilePart.new(
+payload[:file_with_name] = Faraday::Multipart::FilePart.new(
   File.open(__FILE__),
   'text/x-ruby',
   File.basename(__FILE__)
@@ -68,7 +68,7 @@ payload[:file_with_name] = Faraday::FilePart.new(
 
 # Sets a custom Content-Disposition:
 # nil filename still defaults to File.basename(__FILE__)
-payload[:file_with_header] = Faraday::FilePart.new(
+payload[:file_with_header] = Faraday::Multipart::FilePart.new(
   __FILE__,
   'text/x-ruby',
   nil,
@@ -76,13 +76,13 @@ payload[:file_with_header] = Faraday::FilePart.new(
 )
 
 # Upload raw json with content type
-payload[:raw_data] = Faraday::ParamPart.new(
+payload[:raw_data] = Faraday::Multipart::ParamPart.new(
   { a: 1 }.to_json,
   'application/json'
 )
 
 # optionally sets Content-ID too
-payload[:raw_with_id] = Faraday::ParamPart.new(
+payload[:raw_with_id] = Faraday::Multipart::ParamPart.new(
   { a: 1 }.to_json,
   'application/json',
   'foo-123'
