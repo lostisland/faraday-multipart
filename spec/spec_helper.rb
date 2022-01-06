@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'faraday'
+require 'json'
 require_relative '../lib/faraday/multipart'
 
 Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
