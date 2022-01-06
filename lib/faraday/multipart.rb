@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'faraday'
 require_relative 'multipart/file_part'
 require_relative 'multipart/param_part'
 require_relative 'multipart/middleware'
@@ -11,4 +10,9 @@ module Faraday
   module Multipart
     Faraday::Request.register_middleware(multipart: Faraday::Multipart::Middleware)
   end
+
+  # Aliases for Faraday v1
+  FilePart = Multipart::FilePart
+  Parts = Multipart::Parts
+  CompositeReadIO = Multipart::CompositeReadIO
 end
