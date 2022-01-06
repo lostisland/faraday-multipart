@@ -11,8 +11,9 @@ module Faraday
     Faraday::Request.register_middleware(multipart: Faraday::Multipart::Middleware)
   end
 
-  # Aliases for Faraday v1
+  # Aliases for Faraday v1, these are all deprecated and will be removed in v2 of this middleware
   FilePart = Multipart::FilePart
   Parts = Multipart::Parts
   CompositeReadIO = Multipart::CompositeReadIO
+  UploadIO = ::UploadIO
 end
