@@ -13,6 +13,7 @@ module Faraday
 
   # Aliases for Faraday v1, these are all deprecated and will be removed in v2 of this middleware
   FilePart = Multipart::FilePart
+  ParamPart = Multipart::ParamPart
   Parts = Multipart::Parts
   CompositeReadIO = Multipart::CompositeReadIO
   UploadIO = ::UploadIO
