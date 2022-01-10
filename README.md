@@ -42,13 +42,15 @@ gem install faraday-multipart
 First of all, you'll need to add the multipart middleware to your Faraday connection:
 
 ```ruby
+require 'faraday'
 require 'faraday/multipart'
 
 conn = Faraday.new(...) do |f|
-  f.request :multipart
+  f.request :multipart, **options
   # ...
 end
 ```
+
 
 Payload can be a mix of POST data and multipart values.
 
@@ -90,6 +92,50 @@ payload[:raw_with_id] = Faraday::Multipart::ParamPart.new(
 
 conn.post('/', payload)
 ```
+
+### Sending an array of documents
+
+Sometimes, the server you're calling will expect an array of documents or other values for the same key.
+The `multipart` middleware will automatically handle this scenario for you:
+
+```ruby
+payload = {
+  files: [
+    Faraday::Multipart::FilePart.new(__FILE__, 'text/x-ruby'),
+    Faraday::Multipart::FilePart.new(__FILE__, 'text/x-pdf')
+  ],
+  url: [
+    'http://mydomain.com/callback1',
+    'http://mydomain.com/callback2'
+  ]
+}
+
+conn.post(url, payload)
+#=> POST url[]=http://mydomain.com/callback1&url[]=http://mydomain.com/callback2
+#=>   and ncludes both files in the request under the `files[]` name
+```
+
+However, by default these will be sent with `files[]` key and the urls with `url[]`, similarly to arrays in url parameters.
+Some servers (e.g. Mailgun) expect each document to have the same parameter key insted.
+You can instruct the `multipart` middleware to do so by providing the `flat_encode` option:
+
+```ruby
+require 'faraday'
+require 'faraday/multipart'
+
+conn = Faraday.new(...) do |f|
+  f.request :multipart, flat_encode: true
+  # ...
+end
+
+payload = ... # see example above
+
+conn.post(url, payload)
+#=> POST url=http://mydomain.com/callback1&url=http://mydomain.com/callback2
+#=>   and ncludes both files in the request under the `files` name
+```
+
+This works for both `UploadIO` and normal parameters alike.
 
 ## Development
 
