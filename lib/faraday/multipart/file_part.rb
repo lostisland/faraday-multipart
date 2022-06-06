@@ -2,9 +2,6 @@
 
 require 'stringio'
 
-require 'multipart/post'
-require 'multipart/post/version'
-
 module Faraday
   # Rubocop doesn't seem to understand that this is an extension to the
   # Multipart module, so let's add a nodoc
@@ -54,9 +51,12 @@ module Faraday
     #
     # @return [IO]
     if ::Gem::Requirement.new('>= 2.2.0').satisfied_by?(MULTIPART_POST_VERSION)
+      require 'multipart/post'
       FilePart = ::Multipart::Post::UploadIO
       Parts = ::Multipart::Post::Parts
     else
+      require 'composite_io'
+      require 'parts'
       FilePart = ::UploadIO
       Parts = ::Parts
     end
