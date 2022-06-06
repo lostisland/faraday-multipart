@@ -10,6 +10,8 @@ require 'multipart/post/version'
 module Faraday
   # Main Faraday::Multipart module.
   module Multipart
+    MULTIPART_POST_VERSION = ::Gem::Version.new(::Multipart::Post::VERSION)
+
     Faraday::Request.register_middleware(multipart: Faraday::Multipart::Middleware)
   end
 
