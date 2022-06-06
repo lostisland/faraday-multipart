@@ -16,5 +16,5 @@ module Faraday
   ParamPart = Multipart::ParamPart
   Parts = Multipart::Parts
   CompositeReadIO = Multipart::CompositeReadIO
-  UploadIO = ::UploadIO
+  UploadIO = ::Multipart::Post::UploadIO
 end

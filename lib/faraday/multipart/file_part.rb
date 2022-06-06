@@ -2,9 +2,7 @@
 
 require 'stringio'
 
-# multipart-post gem
-require 'composite_io'
-require 'parts'
+require 'multipart/post'
 
 module Faraday
   module Multipart
@@ -51,9 +49,9 @@ module Faraday
     # The open IO object for the uploaded file.
     #
     # @return [IO]
-    FilePart = ::UploadIO
+    FilePart = ::Multipart::Post::UploadIO
 
-    Parts = ::Parts
+    Parts = ::Multipart::Post::Parts
 
     # Similar to, but not compatible with CompositeReadIO provided by the
     # multipart-post gem.
