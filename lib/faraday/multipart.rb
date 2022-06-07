@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+require_relative 'multipart/version'
 require_relative 'multipart/file_part'
 require_relative 'multipart/param_part'
 require_relative 'multipart/middleware'
-require_relative 'multipart/version'
 
 module Faraday
   # Main Faraday::Multipart module.
@@ -18,7 +18,7 @@ module Faraday
   CompositeReadIO = Multipart::CompositeReadIO
   # multipart-post v2.2.0 introduces a new class hierarchy for classes like Parts and UploadIO
   # For backwards compatibility, detect the gem version and use the right class
-  UploadIO = if ::Gem::Requirement.new('>= 2.2.0').satisfied_by?(Multipart::MULTIPART_POST_VERSION)
+  UploadIO = if ::Gem::Requirement.new('>= 2.2.0').satisfied_by?(Multipart.multipart_post_version)
                ::Multipart::Post::UploadIO
              else
                ::UploadIO

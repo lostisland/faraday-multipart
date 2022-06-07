@@ -50,7 +50,7 @@ module Faraday
     # The open IO object for the uploaded file.
     #
     # @return [IO]
-    if ::Gem::Requirement.new('>= 2.2.0').satisfied_by?(MULTIPART_POST_VERSION)
+    if ::Gem::Requirement.new('>= 2.2.0').satisfied_by?(multipart_post_version)
       require 'multipart/post'
       FilePart = ::Multipart::Post::UploadIO
       Parts = ::Multipart::Post::Parts

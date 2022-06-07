@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 module Faraday
+  # #:nodoc:
   module Multipart
     VERSION = '1.0.3'
-    begin
+
+    def self.multipart_post_version
       require 'multipart/post/version'
-      MULTIPART_POST_VERSION = ::Gem::Version.new(::Multipart::Post::VERSION)
+      ::Gem::Version.new(::Multipart::Post::VERSION)
     rescue LoadError
       require 'multipart_post'
-      MULTIPART_POST_VERSION = ::Gem::Version.new(::MultipartPost::VERSION)
+      ::Gem::Version.new(::MultipartPost::VERSION)
     end
   end
 end
