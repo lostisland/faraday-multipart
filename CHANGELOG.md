@@ -1,12 +1,14 @@
 # Changelog
 
-## [1.0.4](https://github.com/lostisland/faraday-multipart/releases/tag/v1.0.3) (2022-06-07)
+## [1.0.4](https://github.com/lostisland/faraday-multipart/releases/tag/v1.0.4) (2022-06-07)
 
 ### What's Changed
 
 * Drop support for 'multipart-post' < 2.0.0. This is not a breaking change as this gem's code didn't work with 1.x.
 * Change references to `UploadIO` and `Parts` according to class reorganization in the 'multipart-post' gem 2.2.0 (see [multipart-post gem PR #89](https://github.com/socketry/multipart-post/pull/89))
 * Introduce a backwards compatible safeguard so the gem still works with previous 'multipart-post' 2.x releases.
+
+**Full Changelog**: https://github.com/lostisland/faraday-multipart/compare/v1.0.3...v1.0.4
 
 ## [1.0.3](https://github.com/lostisland/faraday-multipart/releases/tag/v1.0.3) (2022-01-08)
 
