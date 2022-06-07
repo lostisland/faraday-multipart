@@ -2,11 +2,10 @@
 
 require 'stringio'
 
-# multipart-post gem
-require 'composite_io'
-require 'parts'
-
 module Faraday
+  # Rubocop doesn't seem to understand that this is an extension to the
+  # Multipart module, so let's add a nodoc
+  # #:nodoc:
   module Multipart
     # Multipart value used to POST a binary data from a file or
     #
@@ -51,9 +50,16 @@ module Faraday
     # The open IO object for the uploaded file.
     #
     # @return [IO]
-    FilePart = ::UploadIO
-
-    Parts = ::Parts
+    if ::Gem::Requirement.new('>= 2.2.0').satisfied_by?(multipart_post_version)
+      require 'multipart/post'
+      FilePart = ::Multipart::Post::UploadIO
+      Parts = ::Multipart::Post::Parts
+    else
+      require 'composite_io'
+      require 'parts'
+      FilePart = ::UploadIO
+      Parts = ::Parts
+    end
 
     # Similar to, but not compatible with CompositeReadIO provided by the
     # multipart-post gem.
