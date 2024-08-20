@@ -1,6 +1,6 @@
 # Faraday Multipart
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/lostisland/faraday-multipart/ci)](https://github.com/lostisland/faraday-multipart/actions?query=branch%3Amain)
+[![ci](https://github.com/lostisland/faraday-multipart/actions/workflows/ci.yaml/badge.svg)](https://github.com/lostisland/faraday-multipart/actions/workflows/ci.yaml)
 [![Gem](https://img.shields.io/gem/v/faraday-multipart.svg?style=flat-square)](https://rubygems.org/gems/faraday-multipart)
 [![License](https://img.shields.io/github/license/lostisland/faraday-multipart.svg?style=flat-square)](LICENSE.md)
 
