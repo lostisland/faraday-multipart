@@ -315,4 +315,49 @@ RSpec.describe Faraday::Multipart::Middleware do
       expect(response.body).not_to include('name="b[]"')
     end
   end
+
+  context 'when passing content_type option' do
+    let(:payload) do
+      {
+        xml: Faraday::Multipart::ParamPart.new('<xml><value /></xml>', 'text/xml'),
+        io: Faraday::Multipart::FilePart.new(StringIO.new('io-content'), 'application/octet-stream')
+      }
+    end
+
+    context 'when a multipart mime type is provided' do
+      let(:options) { { content_type: 'multipart/mixed' } }
+
+      it_behaves_like 'a multipart request'
+
+      it 'uses the provided mime type' do
+        response = conn.post('/echo', payload)
+
+        expect(response.headers['Content-Type']).to start_with('multipart/mixed')
+      end
+    end
+
+    context 'when a non-multipart mime type is provided' do
+      let(:options) { { content_type: 'application/json' } }
+
+      it_behaves_like 'a multipart request'
+
+      it 'uses the default mime type' do
+        response = conn.post('/echo', payload)
+
+        expect(response.headers['Content-Type']).to start_with('multipart/form-data')
+      end
+    end
+
+    context 'when no multipart mime type is provided' do
+      let(:options) { {} }
+
+      it_behaves_like 'a multipart request'
+
+      it 'uses the default mime type' do
+        response = conn.post('/echo', payload)
+
+        expect(response.headers['Content-Type']).to start_with('multipart/form-data')
+      end
+    end
+  end
 end
