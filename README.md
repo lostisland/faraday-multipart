@@ -51,6 +51,18 @@ conn = Faraday.new(...) do |f|
 end
 ```
 
+If you need to [specify a different content type for the multipart
+request](https://www.iana.org/assignments/media-types/media-types.xhtml#multipart),
+you can do so by providing the `content_type` option but it must start with
+`multipart/`
+otherwise it will default to `multipart/form-data`:
+
+```ruby
+conn = Faraday.new(...) do |f|
+  f.request :multipart, content_type: 'multipart/mixed'
+  # ...
+end
+```
 
 Payload can be a mix of POST data and multipart values.
 

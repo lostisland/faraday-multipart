@@ -5,10 +5,9 @@ require 'securerandom'
 module Faraday
   module Multipart
     # Middleware for supporting multi-part requests.
-    class Middleware < Faraday::Request::UrlEncoded
+    class Middleware < Faraday::Middleware
+      CONTENT_TYPE = 'Content-Type'
       DEFAULT_BOUNDARY_PREFIX = '-----------RubyMultipartPost'
-
-      self.mime_type = 'multipart/form-data'
 
       def initialize(app = nil, options = {})
         super(app)
@@ -28,13 +27,35 @@ module Faraday
         @app.call env
       end
 
+      private
+
+      # @param env [Faraday::Env]
+      # @yield [request_body] Body of the request
+      def match_content_type(env)
+        return unless process_request?(env)
+
+        env.request_headers[CONTENT_TYPE] ||= mime_type
+        return if env.body.respond_to?(:to_str) || env.body.respond_to?(:read)
+
+        yield(env.body)
+      end
+
       # @param env [Faraday::Env]
       def process_request?(env)
         type = request_type(env)
         env.body.respond_to?(:each_key) && !env.body.empty? && (
           (type.empty? && has_multipart?(env.body)) ||
-            (type == self.class.mime_type)
+            (type == mime_type)
         )
+      end
+
+      # @param env [Faraday::Env]
+      #
+      # @return [String]
+      def request_type(env)
+        type = env.request_headers[CONTENT_TYPE].to_s
+        type = type.split(';', 2).first if type.index(';')
+        type
       end
 
       # Returns true if obj is an enumerable with values that are multipart.
@@ -96,6 +117,17 @@ module Faraday
             all << block.call(key, value) # rubocop:disable Performance/RedundantBlockCall
           end
         end
+      end
+
+      # Determines and provides the multipart mime type for the request.
+      #
+      # @return [String] the multipart mime type
+      def mime_type
+        @mime_type ||= if @options[:content_type].to_s.match?(%r{\Amultipart/.+})
+                         @options[:content_type].to_s
+                       else
+                         'multipart/form-data'
+                       end
       end
     end
   end
