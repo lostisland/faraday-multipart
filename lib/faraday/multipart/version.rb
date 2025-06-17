@@ -3,7 +3,7 @@
 module Faraday
   # #:nodoc:
   module Multipart
-    VERSION = '1.1.0'
+    VERSION = '1.1.1'
 
     def self.multipart_post_version
       require 'multipart/post/version'
