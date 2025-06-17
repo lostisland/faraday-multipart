@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Publish to Rubygems
+    name: Publish to RubyGems
     runs-on: ubuntu-latest
     permissions:
       contents: write
